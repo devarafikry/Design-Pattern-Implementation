@@ -2,6 +2,17 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/Fikry-PC/Documents/NetBeansProjects/DesignPattern/src/tahutelorhotel/model/state/State.java</file>
+            <file>file:/C:/Users/Fikry-PC/Documents/NetBeansProjects/DesignPattern/src/tahutelorhotel/iterator/Iterator.java</file>
+            <file>file:/C:/Users/Fikry-PC/Documents/NetBeansProjects/DesignPattern/src/tahutelorhotel/model/BedroomBooking.java</file>
+            <file>file:/C:/Users/Fikry-PC/Documents/NetBeansProjects/DesignPattern/src/tahutelorhotel/iterator/BedroomBookingListIterator.java</file>
+            <file>file:/C:/Users/Fikry-PC/Documents/NetBeansProjects/DesignPattern/src/tahutelorhotel/model/state/NotPaidState.java</file>
+            <file>file:/C:/Users/Fikry-PC/Documents/NetBeansProjects/DesignPattern/src/tahutelorhotel/model/Booking.java</file>
+            <file>file:/C:/Users/Fikry-PC/Documents/NetBeansProjects/DesignPattern/src/tahutelorhotel/creational/Receptionist.java</file>
+            <file>file:/C:/Users/Fikry-PC/Documents/NetBeansProjects/DesignPattern/src/tahutelorhotel/TahuTelorHotel.java</file>
+            <file>file:/C:/Users/Fikry-PC/Documents/NetBeansProjects/DesignPattern/src/tahutelorhotel/model/MeetingRoomBooking.java</file>
+            <file>file:/C:/Users/Fikry-PC/Documents/NetBeansProjects/DesignPattern/src/tahutelorhotel/model/state/PaidState.java</file>
+        </group>
     </open-files>
 </project-private>
