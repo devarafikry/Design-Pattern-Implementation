@@ -5,10 +5,15 @@
  */
 package tahutelorhotel;
 
+import Iterator.BedroomBookingListIterator;
+import Iterator.MeetingroomBookingListIterator;
+import Iterator.Iterator;
 import java.util.ArrayList;
 import java.util.Scanner;
 import tahutelorhotel.creational.Receptionist;
+import tahutelorhotel.model.BedroomBooking;
 import tahutelorhotel.model.Booking;
+import tahutelorhotel.model.MeetingRoomBooking;
 import tahutelorhotel.model.Room;
 
 /**
@@ -23,7 +28,8 @@ public class TahuTelorHotel {
     static Room[][] room = new Room[2][3];
     static Scanner input = new Scanner(System.in);
     static Receptionist receptionist;
-    static ArrayList<Booking> bookings = new ArrayList<Booking>();
+    static ArrayList<BedroomBooking> bedroomBookings = new ArrayList<BedroomBooking>();
+    static ArrayList<MeetingRoomBooking> meetingRoomBookings = new ArrayList<MeetingRoomBooking>();
     
     public static void main(String[] args) { 
         room[0][0] = new Room("Kamar Tidur Regular",0,300000);
@@ -70,9 +76,17 @@ public class TahuTelorHotel {
              case 3:
                 System.out.println("");
                 System.out.println("Ini Daftar Pesanan Anda :");
-                for (Booking booking: bookings) {
-                    System.out.println(booking.getName() +" selama "+booking.getDuration()+" hari, total "+booking.getPrice());
-                }
+//                for (Booking booking: bookings) {
+//                    System.out.println(booking.getName() +" selama "+booking.getDuration()+" hari, total "+booking.getPrice());
+//                }
+                Iterator bedroomBookingListIterator = new BedroomBookingListIterator(bedroomBookings);
+                Iterator meetingRoomBookingListIterator = new MeetingroomBookingListIterator(meetingRoomBookings);
+                 System.out.println("");
+                 System.out.println("List of Bedroom Bookings :");
+                 printList(bedroomBookingListIterator);
+                 System.out.println("");
+                 System.out.println("List of Meeting Room Bookings :");
+                 printList(meetingRoomBookingListIterator);
                 break;   
         }
         
@@ -83,24 +97,36 @@ public class TahuTelorHotel {
         
     }
     
+    public static void printList(Iterator iterator){
+        while(iterator.hasNext()){
+            Booking booking = iterator.next();
+            System.out.println(booking.getName() +" selama "+booking.getDuration()+" hari, total "+booking.getPrice());
+        }
+    }
+    
     public static void chooseRoom(int options,int userchoice, int duration){
         System.out.println("nihoptions "+options);
-      
-        switch(userchoice){
-            case 1:
-                bookings.add(receptionist.createBooking(options,room[options][0].getNama(), room[options][0].getPrice(), duration));
-                break;
-            case 2:
-                bookings.add(receptionist.createBooking(options,room[options][1].getNama(), room[options][1].getPrice(), duration));
-                break;
-            case 3:
-                bookings.add(receptionist.createBooking(options,room[options][2].getNama(), room[options][2].getPrice(), duration));
-                break;
-            case 99:
-                printWelcomeMenu();
-                break;
+        userchoice = userchoice-1;
+        if(options==0){
+            bedroomBookings.add((BedroomBooking)receptionist.createBooking(options,room[options][0].getNama(), room[options][0].getPrice(), duration));
+        } else{
+            meetingRoomBookings.add((MeetingRoomBooking)receptionist.createBooking(options,room[options][0].getNama(), room[options][0].getPrice(), duration));
         }
-        
+//        switch(userchoice){
+//            case 1:
+//               
+//                break;
+//            case 2:
+//                bookings.add(receptionist.createBooking(options,room[options][1].getNama(), room[options][1].getPrice(), duration));
+//                break;
+//            case 3:
+//                bookings.add(receptionist.createBooking(options,room[options][2].getNama(), room[options][2].getPrice(), duration));
+//                break;
+//            case 99:
+//                printWelcomeMenu();
+//                break;
+//        }
+//        
         System.out.println("Pesanan anda sudah tercatat");
     }
     
