@@ -5,9 +5,9 @@
  */
 package tahutelorhotel;
 
-import Iterator.BedroomBookingListIterator;
-import Iterator.MeetingroomBookingListIterator;
-import Iterator.Iterator;
+import tahutelorhotel.iterator.BedroomBookingListIterator;
+import tahutelorhotel.iterator.MeetingroomBookingListIterator;
+import tahutelorhotel.iterator.Iterator;
 import java.util.ArrayList;
 import java.util.Scanner;
 import tahutelorhotel.creational.Receptionist;
@@ -32,21 +32,15 @@ public class TahuTelorHotel {
     static ArrayList<MeetingRoomBooking> meetingRoomBookings = new ArrayList<MeetingRoomBooking>();
     
     public static void main(String[] args) { 
-        room[0][0] = new Room("Kamar Tidur Regular",0,300000);
-        room[0][1] = new Room("Kamar Tidur VIP",0,500000);
-        room[0][2] = new Room("Kamar Tidur VVIP",0,1000000);
+        room[0][0] = new Room("Regular Bedroom",0,300000);
+        room[0][1] = new Room("VIP Bedroom",0,500000);
+        room[0][2] = new Room("VVIP Bedroom",0,1000000);
         
-        room[1][0] = new Room("Ruang Pertemuan Kecil",1,500000);
-        room[1][1] = new Room("Ruang Pertemuan Sedang",1,2500000);
-        room[1][2] = new Room("Ruang Pertemuan Besar",1,5000000);
+        room[1][0] = new Room("Small Meeting Room",1,500000);
+        room[1][1] = new Room("Medium Meeting Room",1,2500000);
+        room[1][2] = new Room("Big Meeting Room",1,5000000);
         
-        printWelcomeMenu();
-        printReceptionistMenu();
-        System.out.print("Masukkan pilihan ruangan :");
-        System.out.println("");
-        //initializing factory
-        
-        
+        printWelcomeMenu();  
     }
     
     public static void printMenu(int options){
@@ -57,60 +51,100 @@ public class TahuTelorHotel {
                 for(int i =0;i<room[0].length;i++){
                     System.out.println(i+1+". "+room[0][i].getNama()+" Rp. "+room[0][i].getPrice()+" ,00");
                 }
-                System.out.println("Pilih kamar tidur anda :");
+                System.out.println("Choose your bedroom :");
                 userchoice = input.nextInt();
-                System.out.println("Masukkan durasi booking (hari) :");
-                duration = input.nextInt();
-                chooseRoom(0,userchoice,duration);
+                
+                chooseRoom(0,userchoice,0);
                 break;
              case 2:
                 for(int i =0;i<room[1].length;i++){
                     System.out.println(i+1+". "+room[1][i].getNama()+" Rp. "+room[1][i].getPrice()+" ,00");
                 }
-                System.out.println("Pilih ruang pertemuan anda :");
+                System.out.println("Choose your meeting room :");
                 userchoice = input.nextInt();
-                System.out.println("Masukkan durasi booking (hari) :");
-                duration = input.nextInt();
-                chooseRoom(1,userchoice,duration);
+
+                chooseRoom(1,userchoice,0);
                 break;   
              case 3:
                 System.out.println("");
-                System.out.println("Ini Daftar Pesanan Anda :");
+                System.out.println("Choose Booking List :");
 //                for (Booking booking: bookings) {
 //                    System.out.println(booking.getName() +" selama "+booking.getDuration()+" hari, total "+booking.getPrice());
 //                }
                 Iterator bedroomBookingListIterator = new BedroomBookingListIterator(bedroomBookings);
                 Iterator meetingRoomBookingListIterator = new MeetingroomBookingListIterator(meetingRoomBookings);
                  System.out.println("");
-                 System.out.println("List of Bedroom Bookings :");
-                 printList(bedroomBookingListIterator);
-                 System.out.println("");
-                 System.out.println("List of Meeting Room Bookings :");
-                 printList(meetingRoomBookingListIterator);
-                break;   
-        }
-        
-           
+                 System.out.println("1. List of Bedroom Bookings");
+                 System.out.println("2. List of Meeting Room Bookings");
+                 System.out.println("Input your choice :");
+                 int in = input.nextInt();
+                 switch(in){
+                     case 1:
+                         printList(bedroomBookingListIterator);
+                         break;
+                     case 2:
+                         printList(meetingRoomBookingListIterator);
+                         break;
+                     default:
+                         printWelcomeMenu();
+                 }
+                                  
+                   
+        }      
         printWelcomeMenu();
-        
-        
-        
     }
     
     public static void printList(Iterator iterator){
+        ArrayList<Booking> arr = new ArrayList<Booking>();
+        System.out.println("");
+        System.out.println("Booking List :");
+        int i=1;
         while(iterator.hasNext()){
             Booking booking = iterator.next();
-            System.out.println(booking.getName() +" selama "+booking.getDuration()+" hari, total "+booking.getPrice());
+            arr.add(booking);
+            System.out.println(i+". "+booking.getName() +" for "+booking.getDuration()+" day, with total Rp "+booking.getPrice());
+            i++;
         }
+        System.out.println("Choose your booking :");
+        int in = input.nextInt();
+        in = in-1;
+        printBookingMenu(arr.get(in));
+    }
+    
+    public static void printBookingMenu(Booking booking){
+        System.out.println("Choose Action :");
+        System.out.println("1. Check Booking Details");
+        System.out.println("2. Print Bill");
+        System.out.println("3. Pay Bill");
+        System.out.println("4. Unlock Room");
+        System.out.println("99.Back to Menu");
+        int in = input.nextInt();
+        switch(in){
+            case 1:
+                booking.getState().checkBooking(); printBookingMenu(booking);
+                break;
+            case 2:
+                booking.getState().printBill(); printBookingMenu(booking);
+                break;
+            case 3:
+                booking.getState().payBill(); printBookingMenu(booking);
+                break;
+            case 4:
+                booking.getState().unlockRoom(); printBookingMenu(booking);
+                break;
+            default:
+                printWelcomeMenu();
+                break;
+        }
+        
     }
     
     public static void chooseRoom(int options,int userchoice, int duration){
-        System.out.println("nihoptions "+options);
         userchoice = userchoice-1;
         if(options==0){
-            bedroomBookings.add((BedroomBooking)receptionist.createBooking(options,room[options][0].getNama(), room[options][0].getPrice(), duration));
+            bedroomBookings.add((BedroomBooking)receptionist.createBooking(options,room[options][userchoice].getNama(), room[options][userchoice].getPrice(), duration));
         } else{
-            meetingRoomBookings.add((MeetingRoomBooking)receptionist.createBooking(options,room[options][0].getNama(), room[options][0].getPrice(), duration));
+            meetingRoomBookings.add((MeetingRoomBooking)receptionist.createBooking(options,room[options][userchoice].getNama(), room[options][userchoice].getPrice(), duration));
         }
 //        switch(userchoice){
 //            case 1:
@@ -127,39 +161,39 @@ public class TahuTelorHotel {
 //                break;
 //        }
 //        
-        System.out.println("Pesanan anda sudah tercatat");
+        System.out.println("Thanks for booking! Your request has been recorded.");
     }
     
     public static void printWelcomeMenu(){
         System.out.println("");
         System.out.println("Tahu Telor Hotel");
-        System.out.println("1. Bunyikan bel untuk memanggil resepsionis");
-        System.out.println("2. Pergi");
+        System.out.println("1. Ring Bell to call Receptionist");
+        System.out.println("2. Leave");
         System.out.println("==================================");
-        System.out.print("Masukkan pilihan anda :");
+        System.out.print("Input your choice :");
         System.out.println("");
         int options = input.nextInt();
         switch(options){
             case 1:
                 receptionist = Receptionist.getInstance();
-                printReceptionistMenu();
+                receptionist.printMenu();
                 break;
             case 2:
-                System.out.println("Anda meninggalkan Tahu Telor Hotel");
+                System.out.println("You leaving Tahu Telor Hotel");
                 break;
             default:
-                System.out.println("Anda meninggalkan Tahu Telor Hotel");
+                System.out.println("You leaving Tahu Telor Hotel");
         }
     }
     
     public static void printReceptionistMenu(){
         System.out.println("");
-        System.out.println("Selamat datang di Tahu Telor Hotel, ada yang bisa saya bantu?");
-        System.out.println("1. Pesan Kamar Tidur");
-        System.out.println("2. Pesan Ruangan Pertemuan");
-        System.out.println("3. Lihat Daftar Pesanan Saya");
+        System.out.println("Welcome to Tahu Telor Hotel, what's your request?");
+        System.out.println("1. Book a Bedroom");
+        System.out.println("2. Book a Meeting Room");
+        System.out.println("3. Manage My Booking");
         System.out.println("==================================");
-        System.out.print("Masukkan pilihan anda :");
+        System.out.print("Input your choice :");
         System.out.println("");
         int options = input.nextInt();
         printMenu(options);
